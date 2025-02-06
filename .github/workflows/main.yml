@@ -28,3 +28,20 @@ jobs:
       - name: Execute test
         run : |
           pytest
+
+  release:
+    runs-on: ubunto-latest
+    needs: build-and-test
+    if: github.ref == 'refs/heads/main'
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name : Release
+        uses: rymndhng/release-on-push-action@master
+        with:
+          bump_version_scheme: major
+          use_github_release_notes: true
+
+
+
+
